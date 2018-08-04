@@ -1,13 +1,43 @@
-import React from 'react';
-import Square from './Square';
+import React from "react";
+import Square from "./Square";
 
 export default class Board extends React.Component {
-  renderSquare(i) {
-    return <Square />;
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null)
+    };
   }
 
+  renderSquare(i) {
+    return (
+      <Square
+        onClick={() => this.handleClick(i)}
+        value={this.state.squares[i]}
+      />
+    );
+  }
+
+  handleClick = i => {
+    const squares = this.state.squares.slice();
+    squares[i] = "X";
+    this.setState({ squares: squares });
+  };
+
+  // ↓だとエラーになる。onClick()に handleClick 関数そのものを渡してしまうので、Square コンポーネント
+  // の方でクリックされたときに this がなにかわからなくなってしまう。
+  //renderSquare(i) {
+  //  return <Square onClick={this.handleClick} value={this.state.squares[i]} />;
+  //}
+
+  //handleClick() {
+  //  const squares = this.state.squares.slice();
+  //  squares[0] = "X";
+  //  this.setState({ squares: squares });
+  //}
+
   render() {
-    const status = 'Next player: X';
+    const status = "Next player: X";
 
     return (
       <div>
