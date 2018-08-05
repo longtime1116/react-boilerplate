@@ -41,6 +41,10 @@ ul {
   outline: none;
 }
 
+.square-highlight {
+  background: goldenrod;
+}
+
 .kbd-navigation .square:focus {
   background: #ddd;
 }

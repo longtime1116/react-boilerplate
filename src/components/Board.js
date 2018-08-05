@@ -8,6 +8,7 @@ export default class Board extends React.Component {
         key={i}
         onClick={() => this.props.onClick(i)}
         value={this.props.squares[i]}
+        needHighlight={this.props.line.includes(i)}
       />
     );
   }
