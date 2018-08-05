@@ -33,10 +33,23 @@ export default class Game extends React.Component {
     });
   };
 
+  jumpTo = i => {
+    // Not implement yet.
+    return i;
+  };
+
   render() {
     const history = this.state.history;
     const current = history[history.length - 1];
     const winner = calculateWinner(current.squares);
+    const moves = history.map((obj, index) => {
+      const description = index ? "Go to move #" + index : "Go to game start";
+      return (
+        <li>
+          <button onClick={() => this.jumpTo(index)}>{description}</button>
+        </li>
+      );
+    });
     let status;
 
     if (winner) {
@@ -52,7 +65,7 @@ export default class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
