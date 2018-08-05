@@ -12,6 +12,7 @@ export default class Game extends React.Component {
           index: 0
         }
       ],
+      isAscending: true,
       stepNumber: 0,
       xIsNext: true
     };
@@ -45,10 +46,23 @@ export default class Game extends React.Component {
     });
   };
 
+  changeOrder = () => {
+    this.setState({
+      isAscending: !this.state.isAscending
+    });
+  };
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    let status;
+    if (winner) {
+      status = "Winner: " + winner;
+    } else {
+      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    }
+
     const moves = history.map((obj, index) => {
       const location = `(${Math.floor(obj.index / 3)}, ${obj.index % 3})`;
       const description = index
@@ -63,12 +77,12 @@ export default class Game extends React.Component {
         </li>
       );
     });
-    let status;
-
-    if (winner) {
-      status = "Winner: " + winner;
+    const sorted_moves = this.state.isAscending ? moves : moves.reverse();
+    let orderDescription;
+    if (this.state.isAscending) {
+      orderDescription = "To descending order";
     } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+      orderDescription = "To ascending order";
     }
 
     return (
@@ -78,7 +92,16 @@ export default class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            <button
+              onClick={() => {
+                this.changeOrder();
+              }}
+            >
+              {orderDescription}
+            </button>
+          </div>
+          <ol>{sorted_moves}</ol>
         </div>
       </div>
     );
