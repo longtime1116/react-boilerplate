@@ -11,12 +11,13 @@ export default class Game extends React.Component {
           squares: Array(9).fill(null)
         }
       ],
+      stepNumber: 0,
       xIsNext: true
     };
   }
 
   handleClick = i => {
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -29,23 +30,27 @@ export default class Game extends React.Component {
           squares: squares
         }
       ]),
+      stepNumber: this.state.stepNumber + 1,
       xIsNext: !this.state.xIsNext
     });
   };
 
   jumpTo = i => {
     // Not implement yet.
-    return i;
+    this.setState({
+      stepNumber: i,
+      xIsNext: i % 2 === 0
+    });
   };
 
   render() {
     const history = this.state.history;
-    const current = history[history.length - 1];
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((obj, index) => {
       const description = index ? "Go to move #" + index : "Go to game start";
       return (
-        <li>
+        <li key={index}>
           <button onClick={() => this.jumpTo(index)}>{description}</button>
         </li>
       );
