@@ -3,7 +3,8 @@ body {
   margin: 20px;
 }
 
-ol, ul {
+ol,
+ul {
   padding-left: 30px;
 }
 
@@ -11,6 +12,10 @@ ol, ul {
   clear: both;
   content: "";
   display: table;
+}
+
+.bold_line {
+  font-weight: bold;
 }
 
 .status {
